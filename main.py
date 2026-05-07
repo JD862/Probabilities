@@ -34,15 +34,27 @@ def catan():
 
         tiles = []
         for i in range(st.session_state.num_inputs):
-            col1, col2 = st.columns(2) # Divisions
+            col1, col2, col3, col4 = st.columns(4) # Divisions
 
             with col1:
                 options = ["Sheep", "Wheat", "Ore", "Brick", "Wood"] # Choices
                 resource = st.selectbox("Resource Type", options, key=f"res_{i}") # Different keys
             with col2:
-                value = st.text_input(f"Win sum", key=f"win_{i}")
-
-            tiles.append(resource + "/" + value)
+                win_value = st.text_input(f"Win sum", key=f"win_{i}")
+            with col3:
+                amts = st.text_input(f"Number of settlements", key=f"amt_{i}")
+            with col4:
+                st.write("")
+                st.write("")
+                blocked = st.toggle("Blocked?", key=f"block_{i}")
+                
+            
+            if amts.isdigit() == True:
+                for i in range (int(amts)):
+                    if blocked == False:
+                        tiles.append(resource + "/" + win_value)
+            else:
+                tiles.append(resource + "/" + win_value)
 
 
         wanted = st.multiselect("Wanted options", options, key="wanted_options") # What player wants
